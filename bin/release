@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # bin/release <build-dir>
+yarn_version=$(yarn -v)
+if [[ $yarn_version == v2* ]]; then
+  runner=yarn
+else
+  runner=npm
+fi
 
 cat << EOF
 addons: []
 default_process_types:
-  web: yarn start
+  web: $runner start
 EOF
