@@ -89,8 +89,9 @@ yarn_node_modules() {
 
   echo "Installing node modules (yarn.lock)"
   cd "$build_dir" || return
+  echo "$yarn_version"
 
-  if [[ $a == v2* ]]; then
+  if [[ $yarn_version == v2* ]]; then
     echo "yarn 2.x detected"
     monitor "yarn-install" yarn install --frozen-lockfile 2>&1
   else
