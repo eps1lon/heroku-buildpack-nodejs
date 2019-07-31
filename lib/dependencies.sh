@@ -92,7 +92,7 @@ yarn_node_modules() {
 
   if [[ $yarn_version == v2* ]]; then
     echo "yarn 2.x detected"
-    monitor "yarn-install" yarn install --frozen-lockfile 2>&1
+    monitor "yarn-install" yarn install 2>&1
   else
     monitor "yarn-install" yarn install --production="$production" --frozen-lockfile --ignore-engines 2>&1
   fi
