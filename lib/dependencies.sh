@@ -89,7 +89,6 @@ yarn_node_modules() {
 
   echo "Installing node modules (yarn.lock)"
   cd "$build_dir" || return
-  echo "$yarn_version"
 
   if [[ $yarn_version == v2* ]]; then
     echo "yarn 2.x detected"
@@ -101,6 +100,7 @@ yarn_node_modules() {
 
 yarn_prune_devdependencies() {
   local build_dir=${1:-}
+  local yarn_version=$(yarn --version)
 
   if [ "$NODE_ENV" == "test" ]; then
     echo "Skipping because NODE_ENV is 'test'"
@@ -112,6 +112,10 @@ yarn_prune_devdependencies() {
     return 0
   elif [ -n "$YARN_PRODUCTION" ]; then
     echo "Skipping because YARN_PRODUCTION is '$YARN_PRODUCTION'"
+    meta_set "skipped-prune" "true"
+    return 0
+  elif [[ $yarn_version == v2* ]]; then
+    echo "Skipping because yarn 2.x"
     meta_set "skipped-prune" "true"
     return 0
   else
